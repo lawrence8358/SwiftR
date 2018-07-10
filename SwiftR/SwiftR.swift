@@ -386,7 +386,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
         }
     }
     
-    func runJavaScript(_ script: String, callback: ((Any?) -> ())? = nil) {
+    public func runJavaScript(_ script: String, callback: ((Any?) -> ())? = nil) {
         guard wkWebView != nil || webView != nil else {
             jsQueue.append((script, callback))
             return
