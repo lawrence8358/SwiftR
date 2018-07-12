@@ -248,6 +248,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
                 + "\(jqueryInclude)\(signalRInclude)\(jsInclude)"
                 + "</body></html>"
             
+            /*
             webView = SwiftRWebView()
             #if os(iOS)
                 webView.delegate = self
@@ -255,7 +256,22 @@ open class SignalR: NSObject, SwiftRWebDelegate {
             #else
                 webView.policyDelegate = self
                 webView.mainFrame.loadHTMLString(html, baseURL: baseHTMLUrl)
-            #endif
+            #endif*/
+            
+            if webView == nil {
+                webView = SwiftRWebView()
+                #if os(iOS)
+                    webView.delegate = self
+                #else
+                    webView.policyDelegate = self
+                #endif
+            }
+            
+            #if os(iOS)
+                webView.loadHTMLString(html, baseURL: baseHTMLUrl)
+            #else
+                webView.mainFrame.loadHTMLString(html, baseURL: baseHTMLUrl)
+            #endif 
         }
         
         if let ua = customUserAgent {
@@ -264,7 +280,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
         
         SwiftR.connections.append(self)
     }
-    
+        
     deinit {
         if let view = wkWebView {
             view.removeFromSuperview()
